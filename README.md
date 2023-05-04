@@ -499,3 +499,215 @@ public class BookAddService {
 	
 }
 ```
+
+---
+### 구현내용
+#### 관리자 기능
+#### 도서 수정
+- 책 정보 수정은 제목, 저자, 출판사 중 1개를 택하여 원하는 정보를 수정한다. 
+- 수정할 책 정보는 BookVO 타입의 매개변수 b에 저장하여 editXXX(BookVo b) 메소드를 실행한다. 
+- 제목, 저자, 출판사 값을 각각 setTitle(), setAuthor(), setPub()으로 새로운 값을 대입하여 책 정보를 수정할 수 있다. 
+
+
+### 코드
+
+```java
+package com.twlibrary.service;
+
+import java.util.Scanner;
+import com.twlibrary.vo.BookVO;
+
+/**<p>[관리자] - [도서관리] 화면에서 도서 수정할 때 사용하는 클래스입니다. 
+ * 도서 검색 후 원하는 도서를 선택한 뒤에 수정, 삭제를 할 수 있습니다. 
+ * Main에서 editBook()을 호출하여 사용합니다. 
+ * </p>
+ * 
+ * @author 오소엽
+ *
+ */
+public class BookEditService {
+	
+	/** <p>도서 수정 3가지 옵션(제목, 저자, 출판사) 중 1개 택하여 책을 수정하는 메소드입니다.</p>
+	 * 1번 선택 : 책 제목 수정<br>
+	 * 2번 선택 : 저자 수정 <br>
+	 * 3번 선택 : 출판사 수정
+	 * 
+	 * 
+	 * @param b : 수정/삭제 작업 할 책 정보 (도서검색에서 고유번호로 선택한 1권)
+	 */
+	public static void editBook(BookVO b) {
+		Scanner scan = new Scanner(System.in);
+
+		System.out.println();
+		System.out.println("────────────────────────────────────");
+		System.out.println("[수정]");
+		System.out.println();
+		System.out.println("1. 책제목\t2. 저자\t3. 출판사");
+		System.out.println();
+		System.out.print("수정할 항목의 번호를 선택해주세요: ");
+		String choice = scan.nextLine();
+		
+		if (choice.equals("1")) {
+			editTitle(b);
+		} else if (choice.equals("2")) {
+			editAuthor(b);
+		} else if (choice.equals("3")) {
+			editPub(b);
+		}
+		
+	}//editBook
+	
+	/**출판사를 입력받아 수정하는 메소드입니다. 
+	 * 
+	 * @param b2 : 수정/삭제 작업 할 책 정보 (도서검색에서 고유번호로 선택한 1권)
+	 */
+	private static void editPub(BookVO b2) {
+		BookVO b = b2;
+		
+		Scanner scan = new Scanner(System.in);
+
+		System.out.print("어떻게 수정하시겠습니까?: ");
+		String newPub = scan.nextLine();
+		
+		b.setPub(newPub);
+		
+		System.out.println("출판사 수정이 완료되었습니다.");
+		System.out.println();
+		MemberRemoveSerivce.pause();
+		
+	}//editPub
+	
+	/** 저자를 입력받아 책 정보를 수정하는 메소드입니다.
+	 * 
+	 * @param b2 : 수정/삭제 작업 할 책 정보 (도서검색에서 고유번호로 선택한 1권)
+	 */
+	private static void editAuthor(BookVO b2) {
+		BookVO b = b2;
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.print("어떻게 수정하시겠습니까?: ");
+		String newAuthor = scan.nextLine();
+		b.setAuth(newAuthor);
+		
+		System.out.println("저자 수정이 완료되었습니다.");
+		System.out.println();
+		MemberRemoveSerivce.pause();
+		
+		
+		
+	}//editAuthor
+
+	/**책 제목을 입력받아 책 제목을 수정하는 메소드입니다. 
+	 * 
+	 * @param b2 : 수정/삭제 작업 할 책 정보 (도서검색에서 고유번호로 선택한 1권)
+	 */
+	public static void editTitle(BookVO b2) {
+		BookVO b = b2;
+		
+		Scanner scan = new Scanner(System.in);
+
+		System.out.print("어떻게 수정하시겠습니까?: ");
+		String newTitle = scan.nextLine();
+		
+		b.setTitle(newTitle);
+		
+		System.out.println("책 제목 수정이 완료되었습니다.");
+		System.out.println();
+		MemberRemoveSerivce.pause();
+		
+	}//editTitle
+
+}
+```
+
+---
+### 구현내용
+#### 관리자 기능
+#### 도서 삭제
+- getIndex(BookVo b2)로 삭제할 책의 정보가 책 데이터 파일(books.txt)의 몇 번째 행에 위치하는지 구한다. 
+- 입력받은 책의 번호와 책 데이터의 번호가 동일하면 삭제할 인덱스 값에 해당 인덱스를 저장한다. 
+- removeBook(BookVO b2)를 호출하여 책 데이터 파일에서 해당 인덱스의 책 정보를 삭제한다. 
+
+
+### 코드
+
+```java
+package com.twlibrary.service;
+
+import java.util.Scanner;
+
+import com.twlibrary.dao.BookDAO;
+import com.twlibrary.vo.BookVO;
+
+/**
+ * <p>[관리자] - [도서 삭제] 화면에서 책을 삭제할 때 사용하는 메소드입니다. 
+ * Main 클래스에서 removeBook()을 호출하면 선택한 책의 정보가 삭제됩니다. 
+ * BookSearchService()를 실행하여 책을 검색한 후에 실행됩니다. 책목록에서 제거할 책의 인덱스는 indexForRemove입니다. </p>
+ * <p>(예) BookRemoveService.removeBook();</p>
+ * @author 오소엽
+ *
+ */
+public class BookRemoveService {
+	//boos.txt에서 제거할 행의 번호
+	private static int indexForRemove = -1;
+	
+	/**
+	 * 최종적으로 도서삭제를 실행하는 메소드입니다. 
+	 */
+	public static void removeBook(BookVO b2) {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("[삭제]");
+		
+		getIndex(b2);
+		removeOrNot(indexForRemove);
+	
+	} //removeBook
+	
+	
+	/**<p>선택한 책의 유무와 books.txt의 몇번째 행에 위치하는지 인덱스를 구한 후에 책을 삭제할지, 삭제를 취소할지 결정하는 메소드입니다.
+	 * 매개변수로는 getIndex()에서 구한 인덱스를 가지며 반환값은 없습니다.</p>
+	 * 
+	 * @param index : 책 목록(books.txt)에서 제거할 행의 인덱스
+	 * 
+	 */
+	private static void removeOrNot(int index) {
+		BookVO b = BookDAO.getList().get(index);
+		Scanner scan = new Scanner(System.in);
+		System.out.print("선택하신 책의 정보를 삭제하시겠습니까? (Y/N): ");
+		String chocie = scan.nextLine();
+
+		if (chocie.equals("Y")) {
+			System.out.println("삭제를 완료했습니다.");
+			BookDAO.getList().remove(indexForRemove);
+			MemberRemoveSerivce.pause();
+		} else if (chocie.equals("N")) {
+			System.out.println("삭제를 취소했습니다.");
+			MemberRemoveSerivce.pause();
+		} else {
+			System.out.println("잘못된 입력입니다. 다시 시도하세요.");
+		}
+	}
+	
+	
+	/** <p>삭제할 책의 정보를 매개변수 BookVO로 받아서 그 책이 책 목록에 존재하는지 검사하는 메소드입니다. 
+	 * 책 목록(BookDAO)을 한 줄씩 읽어서 목록에 있는 책 번호와 관리자가 선택한 책 번호가 동일하면 해당 인덱스를 indexForRemove에 저장합니다.
+	 * </p> 
+	 * 
+	 * @param b2 : b : 수정/삭제 작업 할 책 정보 (도서검색에서 고유번호로 선택한 1권)
+	 */
+	public static void getIndex(BookVO b2) {
+		for (int i=0; i<BookDAO.getList().size(); i++) {
+			BookVO b = BookDAO.getList().get(i);
+			if (b2.getNum().equals(b.getNum())) {
+				indexForRemove = BookDAO.getList().indexOf(b2);
+			} else { 
+				continue;
+			}
+			
+		}
+	}
+
+}
+```
