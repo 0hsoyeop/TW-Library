@@ -60,6 +60,10 @@
 - 도서 삭제
 
 ---
+### 화면구성
+#### 1. 메인화면
+![메인화면](https://github.com/0hsoyeop/TW-Library/assets/131536077/d43d5826-9194-4fd4-ac6d-754c02870930)
+
 
 ### 관리자 기능
 #### 도서 등록
@@ -112,6 +116,7 @@ public class BookAddService {
 	
 	// getIndex() 메소드 실행 후 리턴값이 -1이면 기존에 있는 도서를 추가하는 메소드 
 	private static void addExistBook(BookVO bTemp) {
+
 		Scanner scan = new Scanner(System.in);
 		System.out.print("동일한 책이 존재합니다. 수량을 입력하십시오. (ex: 3권일 경우 -> 3): ");
 		int count = scan.nextInt();
