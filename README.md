@@ -66,6 +66,8 @@
 - 등록할 책 제목, 저자, 출판사 장르, 가격을 입력한 후 BookVO 변수 bTemp에 저장하여 도서 데이터 파일(books.txt)을 대상으로 중복검사를 실행한다.
 - 이미 등록된 책일 경우 기존 수량(getCount())에 1을 더하여 등록한다.
 - 신규 도서는 앞서 입력한 책 정보에 수량을 setCount()로 지정한다. 
+
+
 - 장르별로 책은 50권씩 기본으로 등록되어 있다. 
 - 신규도서는 입력받은 장르의 책 개수를 getAddIndex()로 구한 뒤, 수량을 입력하여 그만큼의 책 번호(index)를 부여한다.
 
@@ -73,21 +75,7 @@
 ### 코드
 
 ```java
-package com.twlibrary.service;
-import java.util.Scanner;
-import com.twlibrary.dao.BookDAO;
-import com.twlibrary.ui.UI;
-import com.twlibrary.vo.BookVO;
-/**
- * <p>[관리자]-[도서 등록] 화면에서 사용하는 클래스입니다. 
- * Main 클래스에서 addBook()을 호출하여 도서등록을 할 수 있습니다. 
- * 등록할 책의 정보를 입력받은 뒤 getIndex() 메소드에서 중복검사를 하고 
- * 기존에 있는 책이라면 addExistBook() 메소드 실행, 중복된 책이 없으면 getAddIndex()로 책 목록에 추가할 위치를 구한 뒤 
- * addNewBook()로 책의 정보를 BookVO에 새로 등록합니다.</p>
- * <p>(예) BookAddService.addBook(); </p> 
- * @author 오소엽
- *
- */
+// 도서등록
 public class BookAddService {
 	
 	public static void addBook() {
@@ -116,17 +104,13 @@ public class BookAddService {
 		if(getIndex(bTemp) == -1) { //해당하는 책이 없다면 => 신규도서 등록
 			addNewBook(bTemp);
 		
-		} else { 					//해당하는 책이 이미 있다면 => 기존 도서 등록
+		} else { 		//해당하는 책이 이미 있다면 => 기존 도서 등록
 			addExistBook(bTemp);
 		}
 		
 	}//getBookInfo
 	
-	/**
-	 * getIndex() 메소드 실행 후 리턴값이 -1이면 기존에 있는 도서를 추가하는 메소드입니다. 
-	 * 
-	 * @param 새로 등록할 책의 정보를 저장한 bTemp
-	 */
+	// getIndex() 메소드 실행 후 리턴값이 -1이면 기존에 있는 도서를 추가하는 메소드 
 	private static void addExistBook(BookVO bTemp) {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("동일한 책이 존재합니다. 수량을 입력하십시오. (ex: 3권일 경우 -> 3): ");
@@ -138,10 +122,7 @@ public class BookAddService {
 		UI.pause();
 	}//addExistBook
 	
-	/**신규 도서를 책 목록(books.txt)에 추가하는 메소드입니다.
-	 * 
-	 * @param 새로 등록할 책의 정보를 저장한 bTemp
-	 */
+	// 신규 도서를 책 목록(books.txt)에 추가하는 메소드
 	private static void addNewBook(BookVO bTemp) {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("수량을 입력하십시오 (ex: 3권일 경우 -> 3): ");
@@ -166,15 +147,10 @@ public class BookAddService {
 		UI.pause();
 		
 	}//addNewBook
-	/**<p>새로 등록할 책이 책 목록(books.txt)에 존재하는지 검사하는 메소드입니다.
-	 * 매개변수로는 임시저장한 bTemp를 받고 int를 반환하는 메소드입니다. <br>
-	 * 책 제목, 저자, 출판사가 동일하면 같은 책으로 간주합니다.
-	 * 
-	 * </p>
-	 * 
-	 * @param 새로 등록할 책의 정보를 저장한 bTemp
-	 * @return 책이 존재하지 않으면 -1을, 존재하면 그 위치의 인덱스를 반환합니다.
-	 */
+
+	// 새로 등록할 책이 책 목록(books.txt)에 존재하는지 검사하는 메소드입니다.
+	// 책 제목, 저자, 출판사가 동일하면 같은 책으로 간주합니다.
+	// 책이 존재하지 않으면 -1을, 존재하면 그 위치의 인덱스를 반환합니다.
 	public static int getIndex(BookVO bTemp) {
 		int index = -1;
 		
@@ -194,20 +170,10 @@ public class BookAddService {
 	} //getIndex;
 	
 	
-	/**<p>신규 도서를 책 목록(books.txt)에 저장할 위치를 구하는 메소드입니다. 
-	 * 매개변수로 BookVO를 받고 인덱스값을 int로 반환합니다.</p> 
-	 * 
-	 *<p>신규 도서를 책 목록(books.txt)에 저장할 인덱스를 구하는 메소드입니다. 
-	 *매개변수로 BookVO를 받고 인덱스 값을 int로 반환합니다.</p>  
-	 *<p>books.txt에 저장된 도서 목록의 장르별 개수를 각각  computer, art, science, inmoon, textbook에 저장합니다. 
-	 *새로 등록할 책의 정보를 임시저장한 BookVO bTemp의 장르를 '컴퓨터', '예술', '과학', '인문', '수험서'와 비교합니다. 
-	 *장르별 목록의 마지막 인덱스는 (장르별 개수 -1)입니다. </p> 
-	 *<p>(예) '컴퓨터' 장르 50개가 books.txt에 행마다 존재 => 마지막 인덱스 값은 49 </p>
-	 *장르별 마지막 인덱스에 해당하는 BookVO 객체 b2를 생성합니다. b2의 고유번호에 1을 더하여 새 인덱스를 구합니다. </p>
-	 * 
-	 * @param 관리자가 입력한 책의 정보를 저장한 bTemp
-	 * @return books.txt에 새로 저장할 위치를 반환
-	 */
+	// 신규 도서를 책 목록(books.txt)에 저장할 위치를 구하는 메소드 
+	// books.txt에 저장된 도서 목록의 장르별 개수를 각각 computer, art, science, inmoon, textbook에 저장
+	 // 새로 등록할 책의 정보를 BookVO bTemp 변수에 임시저장
+	 // 장르별 마지막 인덱스에 해당하는 BookVO 객체 b2의 고유번호에 1을 더하여 새 인덱스를 구함
 	public static int getAddIndex(BookVO bTemp) {
 		
 		int computer = 0;
@@ -237,6 +203,7 @@ public class BookAddService {
 		}
 		
 		//새로 등록할 책의 장르에 따라 인덱스 부여
+		//ㅈ
 		if (bTemp.getGenre().equals("컴퓨터")) {
 			addIndex = computer;
 			
@@ -252,6 +219,7 @@ public class BookAddService {
 			
 			bTemp.setNum(String.valueOf(newNum));
 			
+
 		} else if (bTemp.getGenre().equals("과학")) {
 			addIndex = computer + art + science;
 			BookVO b2 = BookDAO.getList().get(addIndex-1);
