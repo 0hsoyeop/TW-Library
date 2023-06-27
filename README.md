@@ -6,6 +6,12 @@
 ### 목적
 콘솔 환경에서 도서 관리에 적합한 UI를 제공하고 데이터를 저장 및 관리하는 기능을 구현하고자 함
 
+### 사용언어
+<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
+
+### 개발도구
+<img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat&logo=eclipseide&logoColor=white"/>
+
 ### 개발기간 및 인원
 - 개발인원: 4인
 - 개발기간: *2023-03-06 ~ 2023-03-11 (5일)*
@@ -61,9 +67,17 @@
 
 ---
 ### 화면구성
+
 #### 1. 메인화면
 ![메인화면](https://github.com/0hsoyeop/TW-Library/assets/131536077/d43d5826-9194-4fd4-ac6d-754c02870930)
 
+#### 2. 도서검색
+![책 검색](https://github.com/0hsoyeop/TW-Library/assets/131536077/2ba13653-8fd3-4da2-b5ec-20d48e6751d9)
+
+#### 3. 도서대출
+![회원 대출](https://github.com/0hsoyeop/TW-Library/assets/131536077/9401781f-00f2-4d6d-b5af-83a7270eb332)
+
+---
 
 ### 관리자 기능
 #### 도서 등록
