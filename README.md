@@ -141,9 +141,54 @@ private static void addExistBook(BookVO bTemp) {
 
 
 #### 3. 신규 도서 등록하기
+#### books.txt 몇번째 행에 저장할지 인덱스 구하기
 - 장르별로 책은 50권씩 기본으로 등록되어 있다.
 -  books.txt에 저장된 도서 목록의 장르별 개수를 각각 computer, art, science, inmoon, textbook에 저장
 - 신규도서는 입력받은 장르의 책 개수를 getAddIndex()로 구한 뒤, 장르별 마지막 인덱스에 1을 더하여 새 인덱스를 구함
+
+```java
+//새로 등록할 책의 장르에 따라 인덱스 부여
+		if (bTemp.getGenre().equals("컴퓨터")) {
+			addIndex = computer;
+			
+			BookVO b2 = BookDAO.getList().get(addIndex-1);
+			newNum = Integer.parseInt(b2.getNum())+1;
+			
+			bTemp.setNum(String.valueOf(newNum));
+			
+		} else if (bTemp.getGenre().equals("예술")) {
+			addIndex = computer + art;
+			BookVO b2 = BookDAO.getList().get(addIndex-1);
+			newNum = Integer.parseInt(b2.getNum())+1;
+			
+			bTemp.setNum(String.valueOf(newNum));
+			
+		} else if (bTemp.getGenre().equals("과학")) {
+			addIndex = computer + art + science;
+			BookVO b2 = BookDAO.getList().get(addIndex-1);
+			newNum = Integer.parseInt(b2.getNum())+1;
+			
+			bTemp.setNum(String.valueOf(newNum));
+			
+		} else if (bTemp.getGenre().equals("인문")) {
+			addIndex = computer + art + science + inmoon;
+			BookVO b2 = BookDAO.getList().get(addIndex-1);
+			newNum = Integer.parseInt(b2.getNum())+1;
+			
+			bTemp.setNum(String.valueOf(newNum));
+			
+		} else if (bTemp.getGenre().equals("수험서")) {
+			addIndex = computer + art + science + inmoon + textbook;
+			BookVO b2 = BookDAO.getList().get(addIndex-1);
+			newNum = Integer.parseInt(b2.getNum())+1;
+			
+			bTemp.setNum(String.valueOf(newNum));
+		
+		}
+```
+
+#### 최종 등록하기
+- 책 정보를 가진 BookVO 타입 변수에 setXXX() 메소드로 입력받은 값을 저장한다.
 
 ```java
 
@@ -174,5 +219,4 @@ private static void addExistBook(BookVO bTemp) {
 	}//addNewBook
 
 ```
-	
 
