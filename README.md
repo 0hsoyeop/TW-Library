@@ -13,8 +13,8 @@
 <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat&logo=eclipseide&logoColor=white"/>
 
 ### 개발기간 및 인원
-- 개발인원: 4인
-- 개발기간: *2023-03-06 ~ 2023-03-11 (5일)*
+- 개발인원: 5인
+- 개발기간: *2023-03-06 ~ 2023-03-11*
 
 ### 개발환경
 <table>
